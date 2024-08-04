@@ -1,8 +1,10 @@
-Feature: Browser Initialization and Navigation
+Feature: T-Mobile Shopping Process
 
-  Scenario: Open the browser and navigate to T-Mobile website
+  Scenario: Navigate to Smartwatches section
     Given the browser is set up
     When I start the browser
     Then the browser should be open
     When I navigate to "https://www.t-mobile.pl/"
+    Then I should see the cookie consent popup
+    When I accept all cookies
     Then I should be on the T-Mobile homepage
