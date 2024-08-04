@@ -9,3 +9,4 @@ Feature: T-Mobile Shopping Process
     When I accept all cookies
     Then I should be on the T-Mobile homepage
     When I hover over the "Urządzenia" dropdown menu
+    Then The list is visible

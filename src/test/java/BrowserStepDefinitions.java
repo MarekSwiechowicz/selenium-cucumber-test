@@ -92,7 +92,30 @@ public void i_hover_over_the_devices_dropdown_menu() {
 }
 
 
+@Then("The list is visible")
+public void the_smartwatche_option_should_be_visible_in_the_dropdown() {
+    try {
+        WebElement smartwatcheOption = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//span[text()='Smartwatche']")
+        ));
 
+        assertTrue("\"Smartwatche\" option is not visible in the dropdown", smartwatcheOption.isDisplayed());
+        logger.info("\"Smartwatche\" option is visible in the dropdown");
+    } catch (Exception e) {
+        takeScreenshot("smartwatche_option_error");
+        logger.error("\"Smartwatche\" option is not visible in the dropdown", e);
+        throw e;
+    }
+}
+
+
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+            logger.info("Browser closed");
+        }
+    }
 
     private void takeScreenshot(String fileName) {
         try {
