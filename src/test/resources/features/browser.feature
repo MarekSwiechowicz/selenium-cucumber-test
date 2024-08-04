@@ -8,3 +8,4 @@ Feature: T-Mobile Shopping Process
     Then I should see the cookie consent popup
     When I accept all cookies
     Then I should be on the T-Mobile homepage
+    When I hover over the "Urządzenia" dropdown menu

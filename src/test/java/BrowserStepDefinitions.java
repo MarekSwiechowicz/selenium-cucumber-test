@@ -14,11 +14,14 @@ import java.time.Duration;
 import static org.junit.Assert.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.openqa.selenium.interactions.Actions;
 
 public class BrowserStepDefinitions {
     private static final Logger logger = LoggerFactory.getLogger(BrowserStepDefinitions.class);
     private WebDriver driver;
     private WebDriverWait wait;
+    private Actions actions;
+
 
     @Given("the browser is set up")
     public void the_browser_is_set_up() {
@@ -30,6 +33,7 @@ public class BrowserStepDefinitions {
     public void i_start_the_browser() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        actions = new Actions(driver);
         driver.manage().window().maximize();
         logger.info("Browser started and maximized");
     }
@@ -76,14 +80,19 @@ public class BrowserStepDefinitions {
         assertTrue("Page title does not contain 'T-Mobile'", actualTitle.contains("T-Mobile"));
         logger.info("Title verification passed");
     }
-    
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            logger.info("Browser closed");
-        }
-    }
+
+    @When("I hover over the \"Urządzenia\" dropdown menu")
+public void i_hover_over_the_devices_dropdown_menu() {
+    // Locate the dropdown toggle button
+    WebElement dropdownToggle = driver.findElement(By.xpath("//button[contains(text(), 'Urządzenia')]"));
+
+    // Perform hover action using Actions class
+    actions.moveToElement(dropdownToggle).perform();
+    logger.info("Hovered over the devices dropdown menu button");
+}
+
+
+
 
     private void takeScreenshot(String fileName) {
         try {
