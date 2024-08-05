@@ -16,3 +16,4 @@ Feature: T-Mobile Shopping Process
     Then I click on the specific button
     Then I compare the basket prices with the previously retrieved prices
     Then I navigate back to the homepage
+    Then the cart should contain at least one item

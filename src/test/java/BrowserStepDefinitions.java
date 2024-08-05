@@ -279,6 +279,46 @@ public void i_navigate_back_to_the_homepage() {
     }
 }
 
+@Then("the cart should contain at least one item")
+public void the_cart_should_contain_at_least_one_item() {
+    try {
+        // Locate the cart item indicator element using XPath
+        WebElement cartIndicator = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//*[@id='__next']/div/div/header/div/div[1]/div/div/a[1]/div")
+        ));
+
+        // Retrieve the text content from the element
+        String cartItemCountText = cartIndicator.getText().trim();
+
+        // Log the text for debugging
+        logger.info("Cart item count text: {}", cartItemCountText);
+
+        // Check if the cart item count text is not empty and represents a number greater than zero
+        assertFalse("Cart is empty, no items found.", cartItemCountText.isEmpty());
+
+        // Attempt to parse the text as an integer to check the number of items
+        int itemCount = Integer.parseInt(cartItemCountText);
+        assertTrue("Cart should contain at least one item, but it doesn't.", itemCount > 0);
+
+        // Log success message
+        logger.info("Cart contains {} items.", itemCount);
+
+    } catch (NoSuchElementException e) {
+        takeScreenshot("cart_item_error");
+        logger.error("Cart item indicator not found", e);
+        throw new AssertionError("Expected cart item indicator not found.");
+    } catch (NumberFormatException e) {
+        takeScreenshot("cart_item_format_error");
+        logger.error("Cart item count is not a valid number", e);
+        throw new AssertionError("Cart item count is not a valid number.");
+    } catch (Exception e) {
+        takeScreenshot("cart_check_error");
+        logger.error("Error checking cart contents", e);
+        throw e;
+    }
+}
+
+
 
 @After
 public void tearDown() {
