@@ -257,6 +257,28 @@ public void i_compare_the_basket_prices_with_the_previously_retrieved_prices() {
     }
 }
 
+@When("I navigate back to the homepage")
+public void i_navigate_back_to_the_homepage() {
+    try {
+        // Locate the home button or link using its XPath
+        WebElement homeButton = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//*[@id='osAppInnerContainer']/div[2]/div[1]/a/span/div/img")
+        ));
+
+        // Click the home button
+        homeButton.click();
+        logger.info("Navigated back to the homepage");
+
+        // Optionally, wait for some expected condition to verify the homepage load
+        wait.until(ExpectedConditions.titleContains("T-Mobile")); // Replace with actual homepage title or URL part
+
+    } catch (Exception e) {
+        takeScreenshot("navigate_home_error");
+        logger.error("Failed to navigate back to the homepage", e);
+        throw e;
+    }
+}
+
 
 @After
 public void tearDown() {

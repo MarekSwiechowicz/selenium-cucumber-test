@@ -15,3 +15,4 @@ Feature: T-Mobile Shopping Process
     When I retrieve the prices for comparison using XPath
     Then I click on the specific button
     Then I compare the basket prices with the previously retrieved prices
+    Then I navigate back to the homepage
