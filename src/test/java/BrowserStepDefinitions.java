@@ -27,16 +27,15 @@ public class BrowserStepDefinitions {
     private int firstPrice;
     private int secondPrice;
 
-    @Given("the browser is set up")
+    @Given("I have opened an appropriate browser")
     public void the_browser_is_set_up() {
         logger.info("Setting up the browser");
-        // You might initialize WebDriver options here if needed.
     }
 
     @When("I start the browser")
     public void i_start_the_browser() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         actions = new Actions(driver);
         driver.manage().window().maximize();
         logger.info("Browser started and maximized");
@@ -86,7 +85,7 @@ public class BrowserStepDefinitions {
     }
 
     @When("I hover over the \"Urządzenia\" dropdown menu")
-public void i_hover_over_the_devices_dropdown_menu() {
+    public void i_hover_over_the_devices_dropdown_menu() {
     // Locate the dropdown toggle button
     WebElement dropdownToggle = driver.findElement(By.xpath("//button[contains(text(), 'Urządzenia')]"));
 
@@ -279,7 +278,7 @@ public void i_navigate_back_to_the_homepage() {
     }
 }
 
-@Then("the cart should contain at least one item")
+@Then("the cart should contain one item")
 public void the_cart_should_contain_at_least_one_item() {
     try {
         // Locate the cart item indicator element using XPath

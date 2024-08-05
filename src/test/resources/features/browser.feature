@@ -1,7 +1,7 @@
-Feature: T-Mobile Shopping Process
+Feature: T-Mobile Product Purchase
 
-  Scenario: Navigate to Smartwatches section
-    Given the browser is set up
+Scenario: Add a smartwatch to the cart
+    Given I have opened an appropriate browser
     When I start the browser
     Then the browser should be open
     When I navigate to "https://www.t-mobile.pl/"
@@ -16,4 +16,5 @@ Feature: T-Mobile Shopping Process
     Then I click on the specific button
     Then I compare the basket prices with the previously retrieved prices
     Then I navigate back to the homepage
-    Then the cart should contain at least one item
+    Then the cart should contain one item
+    
