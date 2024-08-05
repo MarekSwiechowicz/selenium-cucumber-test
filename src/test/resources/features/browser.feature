@@ -14,3 +14,4 @@ Feature: T-Mobile Shopping Process
     Then I click on the first product card in the grid
     When I retrieve the prices for comparison using XPath
     Then I click on the specific button
+    Then I compare the basket prices with the previously retrieved prices

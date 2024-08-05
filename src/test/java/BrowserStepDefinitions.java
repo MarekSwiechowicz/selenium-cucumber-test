@@ -24,7 +24,8 @@ public class BrowserStepDefinitions {
     private WebDriver driver;
     private WebDriverWait wait;
     private Actions actions;
-
+    private int firstPrice;
+    private int secondPrice;
 
     @Given("the browser is set up")
     public void the_browser_is_set_up() {
@@ -185,6 +186,9 @@ public void i_retrieve_the_prices_for_comparison_using_xpath() {
         int firstPrice = Integer.parseInt(firstPriceText);
         int secondPrice = Integer.parseInt(secondPriceText);
 
+        this.firstPrice = firstPrice;
+        this.secondPrice = secondPrice;
+        
         // Log the retrieved values
         logger.info("First price: {} zł", firstPrice);
         logger.info("Second price: {} zł", secondPrice);
@@ -224,6 +228,34 @@ public void i_click_on_the_specific_button() {
     }
 }
 
+@Then("I compare the basket prices with the previously retrieved prices")
+public void i_compare_the_basket_prices_with_the_previously_retrieved_prices() {
+    try {
+        // Wait for the basket summary to be visible
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("basketSummary")));
+
+        // Retrieve the first price from the basket summary
+        WebElement basketFirstPriceElement = driver.findElement(By.xpath("//*[@id=\"basketSummary\"]/div/div[2]/div[1]/div/div/div[1]/span[2]/div/span[1]"));
+        String basketFirstPriceText = basketFirstPriceElement.getText().replace(" zł", "").trim();
+        int basketFirstPrice = Integer.parseInt(basketFirstPriceText);
+
+        // Retrieve the second price from the basket summary
+        WebElement basketSecondPriceElement = driver.findElement(By.xpath("//*[@id=\"basketSummary\"]/div/div[2]/div[1]/section/div/div[1]/article/span/div/span[1]"));
+        String basketSecondPriceText = basketSecondPriceElement.getText().replace(" zł", "").trim();
+        int basketSecondPrice = Integer.parseInt(basketSecondPriceText);
+
+        // Compare with the previously retrieved prices
+        assertEquals("First price in basket doesn't match the previously retrieved price", firstPrice, basketFirstPrice);
+        assertEquals("Second price in basket doesn't match the previously retrieved price", secondPrice, basketSecondPrice);
+
+        logger.info("Basket prices match the previously retrieved prices");
+
+    } catch (Exception e) {
+        takeScreenshot("basket_price_comparison_error");
+        logger.error("Failed to compare basket prices with previously retrieved prices", e);
+        throw e;
+    }
+}
 
 
 @After
