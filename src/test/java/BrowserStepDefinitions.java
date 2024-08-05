@@ -11,6 +11,9 @@ import org.openqa.selenium.TakesScreenshot;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.time.Duration;
+import java.util.List;
+import org.openqa.selenium.NoSuchElementException;
+
 import static org.junit.Assert.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,14 +111,71 @@ public void the_smartwatche_option_should_be_visible_in_the_dropdown() {
     }
 }
 
+@Then("I click on the \"Smartwatche\" option in the dropdown")
+public void i_click_on_the_smartwatche_option_in_the_dropdown() {
+    try {
+        // Wait for the second "Smartwatche" text to become visible
+        List<WebElement> smartwatcheOptions = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+            By.xpath("//span[text()='Smartwatche']")
+        ));
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            logger.info("Browser closed");
+        // Ensure there are at least two options and click the second one
+        if (smartwatcheOptions.size() >= 2) {
+            smartwatcheOptions.get(1).click();
+            logger.info("Clicked on the second \"Smartwatche\" option in the dropdown");
+
+            // Optionally, wait for a new page or section to load to ensure the click was successful
+            // For example, wait until a new page title or URL is loaded
+            wait.until(ExpectedConditions.urlContains("sklep/kategoria/telefony/lista")); // Assuming the URL contains "Smartwatche" after click
+        } else {
+            logger.error("Less than two \"Smartwatche\" options found in the dropdown");
+            throw new NoSuchElementException("Less than two \"Smartwatche\" options found in the dropdown");
         }
+
+    } catch (Exception e) {
+        takeScreenshot("smartwatche_click_error");
+        logger.error("Failed to click on the second \"Smartwatche\" option in the dropdown", e);
+        throw e;
     }
+}
+
+@Then("I click on the first product card in the grid")
+public void i_click_on_the_first_product_card_in_the_grid() {
+    try {
+        // Wait for the first product card to become visible
+        WebElement firstProductCard = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.cssSelector("div[data-qa='LST_ProductCard0']")
+        ));
+
+        // Click the first product card
+        firstProductCard.click();
+        logger.info("Clicked on the first product card in the grid");
+
+        // Wait for the page to load by checking for the partial URL
+        wait.until(ExpectedConditions.urlContains("apple-watch-s9-lte"));
+
+        // Verify that the current URL contains "apple-watch-s9-lte"
+        String currentUrl = driver.getCurrentUrl();
+        assertTrue("The page did not navigate to the expected URL containing 'apple-watch-s9-lte'.", currentUrl.contains("apple-watch-s9-lte"));
+        logger.info("Successfully navigated to the Apple Watch S9 LTE product page");
+
+    } catch (Exception e) {
+        takeScreenshot("product_card_click_error");
+        logger.error("Failed to click on the first product card or navigate correctly", e);
+        throw e;
+    }
+}
+
+
+
+
+@After
+public void tearDown() {
+    if (driver != null) {
+        driver.quit();
+        logger.info("Browser closed");
+    }
+}
 
     private void takeScreenshot(String fileName) {
         try {

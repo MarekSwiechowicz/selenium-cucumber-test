@@ -10,3 +10,6 @@ Feature: T-Mobile Shopping Process
     Then I should be on the T-Mobile homepage
     When I hover over the "Urządzenia" dropdown menu
     Then The list is visible
+    Then I click on the "Smartwatche" option in the dropdown
+    Then I click on the first product card in the grid
+    # Then I click on the Add to Cart button
