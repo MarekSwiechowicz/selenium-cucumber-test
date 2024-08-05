@@ -165,7 +165,64 @@ public void i_click_on_the_first_product_card_in_the_grid() {
         throw e;
     }
 }
+@When("I retrieve the prices for comparison using XPath")
+public void i_retrieve_the_prices_for_comparison_using_xpath() {
+    try {
+        // Locate the first price element using the provided XPath
+        WebElement firstPriceElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//*[@id=\"osAppInnerContainer\"]/main/section/section/div/span/div/div[2]/div/div/div/div[1]/div[1]/div/div[2]/div/div")
+        ));
+        
+        // Locate the second price element using the provided XPath
+        WebElement secondPriceElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//*[@id=\"osAppInnerContainer\"]/main/section/section/div/span/div/div[2]/div/div/div/div[1]/div[2]/div/div/div[2]/div/div")
+        ));
 
+        // Retrieve and parse the text values, assuming they are in the format "{number} zł"
+        String firstPriceText = firstPriceElement.getText().replace(" zł", "").trim();
+        String secondPriceText = secondPriceElement.getText().replace(" zł", "").trim();
+        
+        int firstPrice = Integer.parseInt(firstPriceText);
+        int secondPrice = Integer.parseInt(secondPriceText);
+
+        // Log the retrieved values
+        logger.info("First price: {} zł", firstPrice);
+        logger.info("Second price: {} zł", secondPrice);
+
+        // Optionally, you can assert some conditions here if needed
+        assertTrue("First price should be less than the second price", firstPrice < secondPrice);
+
+    } catch (Exception e) {
+        takeScreenshot("price_retrieval_error");
+        logger.error("Failed to retrieve prices for comparison using XPath", e);
+        throw e;
+    }
+}
+
+
+
+@When("I click on the specific button")
+public void i_click_on_the_specific_button() {
+    try {
+        // Use WebDriverWait to wait for the button to become clickable
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//*[@id=\"osAppInnerContainer\"]/main/section/section/div/span/div/div[2]/div/div/div/div[2]/section[1]/button")
+        ));
+
+        // Click the button
+        button.click();
+        logger.info("Clicked on the specific button");
+
+        // Optionally, wait for some expected condition after the button click
+        // e.g., a URL change, an element becoming visible, etc.
+        wait.until(ExpectedConditions.urlContains("basket")); 
+
+    } catch (Exception e) {
+        takeScreenshot("button_click_error");
+        logger.error("Failed to click on the specific button", e);
+        throw e;
+    }
+}
 
 
 

@@ -12,4 +12,5 @@ Feature: T-Mobile Shopping Process
     Then The list is visible
     Then I click on the "Smartwatche" option in the dropdown
     Then I click on the first product card in the grid
-    # Then I click on the Add to Cart button
+    When I retrieve the prices for comparison using XPath
+    Then I click on the specific button
