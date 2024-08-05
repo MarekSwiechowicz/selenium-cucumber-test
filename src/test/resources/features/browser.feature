@@ -11,13 +11,13 @@ Feature: T-Mobile Website Navigation and Shopping Cart
     Then I should be on the T-Mobile homepage
 
     When I hover over the "Urządzenia" dropdown menu
-    Then The list is visible
+    Then Dropdown menu is visible
     And I click on the "Smartwatche" option in the dropdown
 
     Then I click on the first product card in the grid
-    When I retrieve the prices for comparison using XPath
-    And I click on the specific button
-    Then I compare the basket prices with the previously retrieved prices
+    When I retrieve "Do zapłaty na start" and "Do zapłaty miesięcznie" prices
+    And I click on the Dodaj do koszyka button
+    Then I compare the basket prices with the retrieved prices
 
     When I navigate back to the homepage
     Then the cart should contain one item

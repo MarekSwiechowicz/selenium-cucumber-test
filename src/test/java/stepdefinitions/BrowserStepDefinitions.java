@@ -104,7 +104,7 @@ public class BrowserStepDefinitions {
         }
     }
 
-    @Then("The list is visible")
+    @Then("Dropdown menu is visible")
     public void verifyDropdownListVisible() {
         try {
             assertTrue("Devices dropdown is not visible", homePage.isDevicesDropdownVisible());
@@ -145,7 +145,7 @@ public class BrowserStepDefinitions {
         }
     }
 
-    @When("I retrieve the prices for comparison using XPath")
+    @When("I retrieve \"Do zapłaty na start\" and \"Do zapłaty miesięcznie\" prices")
     public void retrievePricesForComparison() {
         try {
             firstPrice = productPage.getFirstPrice();
@@ -159,7 +159,7 @@ public class BrowserStepDefinitions {
         }
     }
 
-    @When("I click on the specific button")
+    @When("I click on the Dodaj do koszyka button")
     public void clickSpecificButton() {
         try {
             basketPage = productPage.clickSpecificButton();
@@ -171,7 +171,7 @@ public class BrowserStepDefinitions {
         }
     }
 
-    @Then("I compare the basket prices with the previously retrieved prices")
+    @Then("I compare the basket prices with the retrieved prices")
     public void compareBasketPrices() {
         try {
             int basketFirstPrice = basketPage.getBasketFirstPrice();
